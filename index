@@ -249,7 +249,7 @@
   <div class="persona-grid">
     <div class="persona-card primary" onclick="showPersona('michael')">
       <span class="badge">PRIMARY</span>
-      <img src="images/michael.png" alt="Michael Reynolds">
+      <img src="Micheal.png" alt="Michael Reynolds">
       <div class="card-body">
         <h3>Michael Reynolds</h3>
         <div class="role">Downtown Finance Employee</div>
@@ -259,7 +259,7 @@
 
     <div class="persona-card" onclick="showPersona('sophia')">
       <span class="badge secondary">SECONDARY</span>
-      <img src="images/sophia.png" alt="Sophia Martinez">
+      <img src="Sophia.png" alt="Sophia Martinez">
       <div class="card-body">
         <h3>Sophia Martinez</h3>
         <div class="role">University of Tampa Student</div>
@@ -269,7 +269,7 @@
 
     <div class="persona-card" onclick="showPersona('danielle')">
       <span class="badge secondary">SECONDARY</span>
-      <img src="images/danielle.png" alt="Danielle Brooks">
+      <img src="Danielle.png" alt="Danielle Brooks">
       <div class="card-body">
         <h3>Danielle Brooks</h3>
         <div class="role">Technology Manager & Resident</div>
@@ -279,7 +279,7 @@
 
     <div class="persona-card" onclick="showPersona('david')">
       <span class="badge secondary">SECONDARY</span>
-      <img src="images/david.png" alt="David Chen">
+      <img src="David.png" alt="David Chen">
       <div class="card-body">
         <h3>David Chen</h3>
         <div class="role">Business Visitor</div>
@@ -292,7 +292,7 @@
   <div id="michael" class="persona-detail">
     <button class="close-btn" onclick="closeAll()">&times;</button>
     <div class="detail-grid">
-      <img src="images/michael.png" alt="Michael Reynolds" class="detail-img">
+      <img src="Micheal.png" alt="Michael Reynolds" class="detail-img">
       <div>
         <h3>Michael Reynolds</h3>
         <p class="role"><strong>Primary Persona</strong> · 34 · Downtown Finance Employee</p>
@@ -324,7 +324,7 @@
   <div id="sophia" class="persona-detail">
     <button class="close-btn" onclick="closeAll()">&times;</button>
     <div class="detail-grid">
-      <img src="images/sophia.png" alt="Sophia Martinez" class="detail-img">
+      <img src="Sophia.png" alt="Sophia Martinez" class="detail-img">
       <div>
         <h3>Sophia Martinez</h3>
         <p class="role"><strong>Secondary Persona</strong> · 21 · University of Tampa Student</p>
@@ -356,7 +356,7 @@
   <div id="danielle" class="persona-detail">
     <button class="close-btn" onclick="closeAll()">&times;</button>
     <div class="detail-grid">
-      <img src="images/danielle.png" alt="Danielle Brooks" class="detail-img">
+      <img src="Danielle.png" alt="Danielle Brooks" class="detail-img">
       <div>
         <h3>Danielle Brooks</h3>
         <p class="role"><strong>Secondary Persona</strong> · 42 · Technology Manager & Downtown Resident</p>
@@ -388,7 +388,7 @@
   <div id="david" class="persona-detail">
     <button class="close-btn" onclick="closeAll()">&times;</button>
     <div class="detail-grid">
-      <img src="images/david.png" alt="David Chen" class="detail-img">
+      <img src="David.png" alt="David Chen" class="detail-img">
       <div>
         <h3>David Chen</h3>
         <p class="role"><strong>Secondary Persona</strong> · 38 · Downtown Business Visitor</p>
