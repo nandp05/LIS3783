@@ -1,532 +1,356 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Move Downtown Tampa | User Personas</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Move Downtown Tampa: a student-designed trip planning and transportation comparison prototype.">
+<title>Move Downtown Tampa | Plan Your Trip</title>
 <style>
-  :root {
-    --primary: #0a4d8c;
-    --secondary: #1a7a4c;
-    --accent: #f4a261;
-    --light: #f8f9fa;
-    --dark: #1a1a2e;
-    --card-bg: #ffffff;
-    --shadow: 0 10px 30px rgba(0,0,0,0.1);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-    color: var(--dark);
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-  header {
-    background: var(--primary);
-    color: white;
-    padding: 1rem 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  }
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  nav h1 { font-size: 1.5rem; font-weight: 700; }
-  nav ul { display: flex; list-style: none; gap: 1.5rem; }
-  nav a { color: white; text-decoration: none; font-weight: 500; transition: color 0.3s; }
-  nav a:hover { color: var(--accent); }
-
-  .hero {
-    position: relative;
-    height: 60vh;
-    min-height: 400px;
-    background: linear-gradient(to bottom, rgba(10,77,140,0.85), rgba(26,26,46,0.9)), #0a4d8c;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-  }
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    max-width: 800px;
-    padding: 2rem;
-    animation: fadeInUp 1s ease-out;
-  }
-  .hero h2 { font-size: 3rem; margin-bottom: 1rem; }
-  .hero p { font-size: 1.25rem; opacity: 0.95; }
-
-  .container { max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem; }
-
-  h2.section-title {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: var(--primary);
-  }
-  .section-subtitle {
-    text-align: center;
-    color: #555;
-    margin-bottom: 3rem;
-    font-size: 1.1rem;
-  }
-
-  .persona-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-  }
-  .persona-card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
-    cursor: pointer;
-    position: relative;
-  }
-  .persona-card:hover {
-    transform: translateY(-12px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  }
-  .persona-card.primary {
-    border: 3px solid var(--accent);
-  }
-  .persona-card img {
-    width: 100%;
-    height: 280px;
-    object-fit: cover;
-    transition: transform 0.5s;
-  }
-  .persona-card:hover img { transform: scale(1.05); }
-  .card-body { padding: 1.5rem; }
-  .card-body h3 { font-size: 1.4rem; margin-bottom: 0.3rem; }
-  .role { color: var(--secondary); font-weight: 600; margin-bottom: 0.5rem; }
-  .age { color: #666; font-size: 0.9rem; }
-  .badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: var(--accent);
-    color: white;
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-  }
-  .badge.secondary { background: var(--secondary); }
-
-  .persona-detail {
-    display: none;
-    background: white;
-    border-radius: 16px;
-    padding: 2.5rem;
-    margin: 2rem 0;
-    box-shadow: var(--shadow);
-    animation: slideIn 0.5s ease-out;
-  }
-  .persona-detail.active { display: block; }
-  .persona-detail h3 { font-size: 2rem; color: var(--primary); margin-bottom: 1rem; }
-  .detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 2rem;
-    align-items: start;
-  }
-  .detail-img { width: 100%; border-radius: 12px; max-height: 400px; object-fit: cover; }
-  .quote {
-    background: #f0f7ff;
-    border-left: 4px solid var(--primary);
-    padding: 1rem 1.5rem;
-    margin: 1.5rem 0;
-    font-style: italic;
-    font-size: 1.1rem;
-  }
-  .detail-section { margin-bottom: 1.5rem; }
-  .detail-section h4 { color: var(--secondary); margin-bottom: 0.5rem; }
-
-  .ia-section {
-    background: white;
-    border-radius: 16px;
-    padding: 2.5rem;
-    box-shadow: var(--shadow);
-    margin-top: 2rem;
-  }
-  .ia-section h3 { color: var(--primary); margin-bottom: 1.5rem; font-size: 1.8rem; }
-  .accordion-item {
-    border-bottom: 1px solid #eee;
-    margin-bottom: 0.5rem;
-  }
-  .accordion-header {
-    padding: 1rem;
-    background: #f8f9fa;
-    cursor: pointer;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 8px;
-    transition: background 0.3s;
-  }
-  .accordion-header:hover { background: #e9ecef; }
-  .accordion-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.4s ease;
-    padding: 0 1rem;
-  }
-  .accordion-content.open {
-    max-height: 600px;
-    padding: 1rem;
-  }
-  .arrow { transition: transform 0.3s; }
-  .accordion-header.open .arrow { transform: rotate(180deg); }
-
-  footer {
-    background: var(--dark);
-    color: white;
-    text-align: center;
-    padding: 2rem;
-    margin-top: 4rem;
-  }
-
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .close-btn {
-    float: right;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #666;
-  }
-
-  @media (max-width: 768px) {
-    .detail-grid { grid-template-columns: 1fr; }
-    nav ul { display: none; }
-    .hero h2 { font-size: 2rem; }
-  }
+:root{--ink:#152e38;--muted:#60737b;--green:#136b61;--mint:#e6f4ee;--cream:#f7f8f4;--line:#dce6e2;--white:#fff;--gold:#f5bb63}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}
+a{color:inherit}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.nav{max-width:1180px;margin:auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{font-weight:850;font-size:1.18rem;text-decoration:none;letter-spacing:-.04em}
+.brand span{color:var(--green)}
+nav{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+nav a{text-decoration:none;font-size:.89rem;font-weight:650}
+nav a:hover{text-decoration:underline}
+.navcta,.btn{display:inline-block;background:var(--green);color:white;padding:11px 17px;border:0;border-radius:11px;font-weight:750;text-decoration:none}
+.navcta:hover,.btn:hover{background:#0e544c}
+.outline{background:white;border:1px solid var(--green);color:var(--green)}
+.outline:hover{background:var(--mint)}
+main{overflow:hidden}
+.hero{background:linear-gradient(125deg,#0c3f43,#176e65);color:#fff}
+.wrap{max-width:1180px;margin:auto;padding:0 24px}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center;padding:76px 0}
+.eyebrow{font-weight:800;letter-spacing:.13em;text-transform:uppercase;font-size:.74rem;color:#a8e5d1}
+h1{font-size:clamp(2.7rem,5vw,4.8rem);letter-spacing:-.055em;line-height:1.06;margin:14px 0 24px}
+h2{font-size:clamp(1.8rem,3vw,2.65rem);letter-spacing:-.04em;line-height:1.2;margin:10px 0 18px}
+h3{font-size:1.16rem;margin:0 0 8px}
+.hero p{font-size:1.12rem;color:#dcf2eb;max-width:570px}
+.hero-note{font-size:.86rem!important;color:#c4e0d8!important}
+.hero-card{background:#fff;color:var(--ink);padding:28px;border-radius:22px;box-shadow:0 24px 60px #092d2d55}
+.hero-card h2{font-size:1.45rem}
+.field{margin:14px 0}
+.field label{display:block;font-weight:750;font-size:.88rem;margin-bottom:7px}
+.field input,.field select{width:100%;padding:12px;border:1px solid #bfcfca;border-radius:10px;background:white;color:var(--ink)}
+.field input:focus,.field select:focus{outline:3px solid #9de3cb}
+.wide{width:100%}
+.fine{font-size:.78rem;color:var(--muted)}
+.section{padding:75px 0}
+.section-head{max-width:740px;margin-bottom:30px}
+.section-head p{color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.step,.panel,.persona,.mode,.result{background:white;border:1px solid var(--line);border-radius:17px;padding:22px}
+.num{display:inline-flex;width:36px;height:36px;align-items:center;justify-content:center;background:var(--mint);border-radius:11px;color:var(--green);font-weight:900;margin-bottom:15px}
+.step p,.mode p,.persona p{color:var(--muted);margin:0}
+.light{background:#eef4f0}
+.builder{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;align-items:start}
+.builder .panel{padding:26px}
+.checkgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.check{display:flex;gap:8px;align-items:center;padding:10px;background:#f7faf8;border:1px solid var(--line);border-radius:9px}
+.check input{accent-color:var(--green)}
+.result{margin-bottom:12px;display:flex;justify-content:space-between;gap:18px;align-items:center}
+.result small{display:block;color:var(--muted)}
+.pill{display:inline-block;padding:5px 9px;background:var(--mint);border-radius:20px;color:var(--green);font-size:.74rem;font-weight:800}
+.summary{border-left:4px solid var(--green);padding:13px 18px;background:#f0f7f3;border-radius:8px;margin-top:14px}
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.mode .emoji{font-size:1.9rem;margin-bottom:10px}
+.personas{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.persona{padding:0;overflow:hidden}
+.persona img{display:block;width:100%;height:240px;object-fit:cover;object-position:center 25%}
+.persona .inside{padding:20px}
+.persona .role{color:var(--green);font-size:.79rem;font-weight:850;text-transform:uppercase;letter-spacing:.06em}
+.persona blockquote{font-size:.91rem;margin:12px 0 0;border-left:3px solid var(--gold);padding-left:12px}
+.footer{background:#102f35;color:#e8f5ef;padding:36px 0}
+.footer a{color:#c4efdc}
+.notice{background:#fff6e7;border:1px solid #eed7a8;border-radius:12px;padding:15px 18px;font-size:.88rem;color:#684c19}
+.hidden{display:none!important}
+.result button{white-space:nowrap}
+.small{font-size:.88rem}
+.meta{color:var(--muted);font-size:.85rem}
+ul{padding-left:21px}
+li{margin:5px 0}
+section{scroll-margin-top:90px}
+@media(max-width:850px){
+.hero-grid,.builder{grid-template-columns:1fr}
+.steps,.modes,.personas{grid-template-columns:repeat(2,1fr)}
+.hero-grid{padding:48px 0}
+.nav{align-items:flex-start;flex-direction:column}
+nav{gap:12px}
+.section{padding:54px 0}
+}
+@media(max-width:520px){
+.steps,.modes,.personas,.checkgrid{grid-template-columns:1fr}
+.result{align-items:flex-start;flex-direction:column}
+.persona img{height:320px}
+h1{font-size:2.65rem}
+}
 </style>
 </head>
 <body>
 <header>
-  <nav>
-    <h1>Move Downtown Tampa</h1>
-    <ul>
-      <li><a href="#personas">Personas</a></li>
-      <li><a href="#ia">IA Planning</a></li>
-    </ul>
-  </nav>
-</header>
-
-<section class="hero">
-  <div class="hero-content">
-    <h2>User Personas for Move Downtown Tampa</h2>
-    <p>Understanding who uses our site shapes every navigation, label, and pathway decision.</p>
-  </div>
-</section>
-
-<div class="container">
-  <h2 class="section-title" id="personas">Recommended Personas</h2>
-  <p class="section-subtitle">These four personas represent meaningful differences in transportation needs, goals, and behaviors that will guide the information architecture of the Move Downtown Tampa website.</p>
-
-  <div class="persona-grid">
-    <div class="persona-card primary" onclick="showPersona('michael')">
-      <span class="badge">PRIMARY</span>
-      <img src="Micheal.png" alt="Michael Reynolds">
-      <div class="card-body">
-        <h3>Michael Reynolds</h3>
-        <div class="role">Downtown Finance Employee</div>
-        <div class="age">34 · Regular Commuter</div>
-      </div>
-    </div>
-
-    <div class="persona-card" onclick="showPersona('sophia')">
-      <span class="badge secondary">SECONDARY</span>
-      <img src="Sophia.png" alt="Sophia Martinez">
-      <div class="card-body">
-        <h3>Sophia Martinez</h3>
-        <div class="role">University of Tampa Student</div>
-        <div class="age">21 · Budget-Conscious</div>
-      </div>
-    </div>
-
-    <div class="persona-card" onclick="showPersona('danielle')">
-      <span class="badge secondary">SECONDARY</span>
-      <img src="Danielle.png" alt="Danielle Brooks">
-      <div class="card-body">
-        <h3>Danielle Brooks</h3>
-        <div class="role">Technology Manager & Resident</div>
-        <div class="age">42 · Downtown Resident</div>
-      </div>
-    </div>
-
-    <div class="persona-card" onclick="showPersona('david')">
-      <span class="badge secondary">SECONDARY</span>
-      <img src="David.png" alt="David Chen">
-      <div class="card-body">
-        <h3>David Chen</h3>
-        <div class="role">Business Visitor</div>
-        <div class="age">38 · First-Time in Tampa</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Persona Details -->
-  <div id="michael" class="persona-detail">
-    <button class="close-btn" onclick="closeAll()">&times;</button>
-    <div class="detail-grid">
-      <img src="Micheal.png" alt="Michael Reynolds" class="detail-img">
-      <div>
-        <h3>Michael Reynolds</h3>
-        <p class="role"><strong>Primary Persona</strong> · 34 · Downtown Finance Employee</p>
-        <div class="quote">"I need a quick way to compare if the streetcar or biking gets me to the office faster than sitting in traffic and paying for parking."</div>
-        <div class="detail-section">
-          <h4>Persona Overview</h4>
-          <p>Finance professional who lives and works in Downtown Tampa. Commutes regularly and actively seeks alternatives to driving to save time and money.</p>
-        </div>
-        <div class="detail-section">
-          <h4>Demographics</h4>
-          <p>34 years old, male, lives in a downtown apartment, works as a financial analyst/manager in a downtown office building.</p>
-        </div>
-        <div class="detail-section">
-          <h4>Goals and Tasks</h4>
-          <ul>
-            <li>Compare public transit, walking, and biking options by travel time, convenience, and cost for his daily commute.</li>
-            <li>Avoid traffic congestion and expensive parking fees.</li>
-            <li>Find reliable, consistent routes that fit his morning and evening schedule.</li>
-          </ul>
-        </div>
-        <div class="detail-section">
-          <h4>Environment</h4>
-          <p>Uses his smartphone in the morning while getting ready or during his commute planning. Values efficiency and reliability. Often checks options the night before or while walking out the door.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="sophia" class="persona-detail">
-    <button class="close-btn" onclick="closeAll()">&times;</button>
-    <div class="detail-grid">
-      <img src="Sophia.png" alt="Sophia Martinez" class="detail-img">
-      <div>
-        <h3>Sophia Martinez</h3>
-        <p class="role"><strong>Secondary Persona</strong> · 21 · University of Tampa Student</p>
-        <div class="quote">"As a student on a budget, I need the cheapest way to get from campus to downtown restaurants or events without relying on rideshares every time."</div>
-        <div class="detail-section">
-          <h4>Persona Overview</h4>
-          <p>University of Tampa student who lives near campus and frequently travels between classes, housing, restaurants, and downtown destinations. Prioritizes low or no cost options.</p>
-        </div>
-        <div class="detail-section">
-          <h4>Demographics</h4>
-          <p>21 years old, female, undergraduate student at University of Tampa, lives in student housing near campus, does not regularly own or use a car.</p>
-        </div>
-        <div class="detail-section">
-          <h4>Goals and Tasks</h4>
-          <ul>
-            <li>Find affordable or free routes (walking, biking, public transit) between campus, housing, and downtown locations.</li>
-            <li>Quickly identify the best low-cost option for short trips.</li>
-            <li>Access path and transit information on her phone between classes.</li>
-          </ul>
-        </div>
-        <div class="detail-section">
-          <h4>Environment</h4>
-          <p>Primarily uses her smartphone while on the go. Time-constrained between classes. Highly sensitive to cost. Values clear, simple information that loads quickly.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="danielle" class="persona-detail">
-    <button class="close-btn" onclick="closeAll()">&times;</button>
-    <div class="detail-grid">
-      <img src="Danielle.png" alt="Danielle Brooks" class="detail-img">
-      <div>
-        <h3>Danielle Brooks</h3>
-        <p class="role"><strong>Secondary Persona</strong> · 42 · Technology Manager & Downtown Resident</p>
-        <div class="quote">"I live downtown and have a car, but I want convenient alternatives for dinner, errands, or weekend activities that don't involve hunting for parking."</div>
-        <div class="detail-section">
-          <h4>Persona Overview</h4>
-          <p>Technology manager who lives in Downtown Tampa. Has access to a car but prefers convenient, lower-stress options for local trips related to dining, errands, and recreation.</p>
-        </div>
-        <div class="detail-section">
-          <h4>Demographics</h4>
-          <p>42 years old, female, technology manager, downtown resident, owns a car but seeks alternatives for short urban trips.</p>
-        </div>
-        <div class="detail-section">
-          <h4>Goals and Tasks</h4>
-          <ul>
-            <li>Discover convenient walking, biking, or shared transportation options for evening and weekend activities.</li>
-            <li>Understand travel time and accessibility for nearby destinations.</li>
-            <li>Avoid driving and parking hassles for short trips within downtown.</li>
-          </ul>
-        </div>
-        <div class="detail-section">
-          <h4>Environment</h4>
-          <p>Uses smartphone or laptop from home in the evening or on weekends. Values convenience and clear information about travel time and accessibility.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="david" class="persona-detail">
-    <button class="close-btn" onclick="closeAll()">&times;</button>
-    <div class="detail-grid">
-      <img src="David.png" alt="David Chen" class="detail-img">
-      <div>
-        <h3>David Chen</h3>
-        <p class="role"><strong>Secondary Persona</strong> · 38 · Downtown Business Visitor</p>
-        <div class="quote">"I'm only in Tampa for a few days for a conference. I need straightforward directions from my hotel to the venue and clear info on transit stops and fares without jumping between multiple websites."</div>
-        <div class="detail-section">
-          <h4>Persona Overview</h4>
-          <p>Business traveler visiting Downtown Tampa for a conference or meetings. Unfamiliar with local transportation systems and needs quick, reliable guidance.</p>
-        </div>
-        <div class="detail-section">
-          <h4>Demographics</h4>
-          <p>38 years old, male, business visitor staying at a downtown hotel, limited time, unfamiliar with Tampa's transit network.</p>
-        </div>
-        <div class="detail-section">
-          <h4>Goals and Tasks</h4>
-          <ul>
-            <li>Get straightforward directions and transportation options from hotel to conference venue or other destinations.</li>
-            <li>Understand transit stops, fares, and available modes quickly.</li>
-            <li>Access clear information without needing multiple apps or websites.</li>
-          </ul>
-        </div>
-        <div class="detail-section">
-          <h4>Environment</h4>
-          <p>Uses smartphone while at his hotel or on the go. Time-limited visitor who values simplicity and clear labels. May be a first-time visitor to the area.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- IA Planning Section -->
-  <div class="ia-section" id="ia">
-    <h3>How Personas Influence Information Architecture</h3>
-
-    <div class="accordion-item">
-      <div class="accordion-header" onclick="toggleAccordion(this)">
-        Primary User Focus
-        <span class="arrow">▼</span>
-      </div>
-      <div class="accordion-content">
-        <p><strong>Primary Persona: Michael Reynolds</strong></p>
-        <p>Michael is our target focus because he is the archetypal user — a resident/worker in the downtown who, on a daily basis, needs to make a decision comparing travel options. His daily decisions are the ones that our comparison features, filters and "Getting Around" overview page will support most directly. By designing for Michael we are building the strongest design possible, to support those behaviors most important to the site.</p>
-      </div>
-    </div>
-
-    <div class="accordion-item">
-      <div class="accordion-header" onclick="toggleAccordion(this)">
-        User Tasks
-        <span class="arrow">▼</span>
-      </div>
-      <div class="accordion-content">
-        <p>Other tasks also supported, along with those below, include:</p>
-        <ul>
-          <li>Drop a destination and compare transportation options (transit, bike, walk, shared) by time and cost.</li>
-          <li>Sort options by cost, duration or mode of transportation.</li>
-          <li>Finding express route information, stops, and fares.</li>
-        </ul>
-        <p>Sophia desires fast, inexpensive solutions, Danielle desires nearby, easy solutions, and David desires user-friendly solutions – they are all provided by the identical comparison and pathway structure.</p>
-      </div>
-    </div>
-
-    <div class="accordion-item">
-      <div class="accordion-header" onclick="toggleAccordion(this)">
-        Content Organization
-        <span class="arrow">▼</span>
-      </div>
-      <div class="accordion-content">
-        <p>Content is divided into four logical buckets: <strong>Walking, Biking, Public Transit, and Shared Transportation</strong>. There is a <strong>Getting Around</strong> page that outlines options and guides consumers to select what is right for them.</p>
-        <p>This fits Michael (calculates one-day trip options), Sophia (searches for cheap routes from campus), Danielle (easy local solutions), and David (rough glance at options).</p>
-      </div>
-    </div>
-
-    <div class="accordion-item">
-      <div class="accordion-header" onclick="toggleAccordion(this)">
-        Navigation Structure
-        <span class="arrow">▼</span>
-      </div>
-      <div class="accordion-content">
-        <p>Navigation is uniform on every page with navigation headings in the main menu: <strong>Home, Getting Around, Walking, Biking, Public Transit, Shared Transportation, and Learn</strong>.</p>
-        <p>This means that Michael is able to go straight to Public Transit, Sophia to navigate to Walking and Biking routes, and Danielle or David to the Getting Around page to give them a basic orientation to the site without sifting through a pile of pages.</p>
-      </div>
-    </div>
-
-    <div class="accordion-item">
-      <div class="accordion-header" onclick="toggleAccordion(this)">
-        Labels and Terminology
-        <span class="arrow">▼</span>
-      </div>
-      <div class="accordion-content">
-        <p>The labels employed on the website are simple and intuitive, for instance <strong>Walking, Biking and Public Transit</strong> and not the more technical terms such as the Infrastructure of Collective Transportation or Pedestrian Mobility.</p>
-        <p>This coherence with the controlled vocabulary benefits David (who doesn't know Tampa), and Sophia (who'd prefer to do it faster through phone). Michael can easily identify transportation types directly.</p>
-      </div>
-    </div>
-
-    <div class="accordion-item">
-      <div class="accordion-header" onclick="toggleAccordion(this)">
-        User Pathways
-        <span class="arrow">▼</span>
-      </div>
-      <div class="accordion-content">
-        <p>Users have a large input in the search: <strong>"Where do you want to go?"</strong> Users can look and narrow down by transportation type, cost, time, and other filters.</p>
-        <p>Examples:</p>
-        <ul>
-          <li>Michael investigates how to get from apartment to office: Transit vs. bike.</li>
-          <li>Sophia finds options from University of Tampa to downtown.</li>
-          <li>Danielle lists an example of a plan for dinner or errands.</li>
-          <li>David looks up directions from hotel to conference.</li>
-        </ul>
-        <p>The pathways conveniently transition users from destination to mode selection, and along the way, serve the needs of each persona.</p>
-      </div>
-    </div>
-  </div>
+<div class="nav">
+<a class="brand" href="#home">MOVE <span>DOWNTOWN</span> TAMPA</a>
+<nav aria-label="Main navigation">
+<a href="#plan">Plan a Trip</a>
+<a href="#compare">Compare Options</a>
+<a href="#accessibility">Accessibility</a>
+<a href="#guidance">Travel Guidance</a>
+<a href="#personas">Our Users</a>
+<a href="#about">About</a>
+</nav>
 </div>
-
-<footer>
-  <p><strong>Move Downtown Tampa</strong> — Group Project: User Personas (Module 7)</p>
-  <p>Group Number: 11 &nbsp;|&nbsp; Members: Nand Patel and Isaiah Jean</p>
-  <p style="margin-top: 1rem; opacity: 0.8;">Designed to support residents, employees, students, and visitors in navigating Downtown Tampa.</p>
+</header>
+<main>
+<section class="hero" id="home">
+<div class="wrap hero-grid">
+<div>
+<div class="eyebrow">A smarter way around downtown</div>
+<h1>Go from here to there. Without automatically driving.</h1>
+<p>Plan short trips around Downtown Tampa, compare transportation choices, and understand the trade-offs before you go.</p>
+<a class="btn" style="background:#f5bb63;color:#173b3a" href="#plan">Start planning →</a>
+<p class="hero-note">Group 11 class prototype · Illustrative trip information only</p>
+</div>
+<div class="hero-card">
+<h2>Where are you headed?</h2>
+<p class="meta">Start with a trip, not a list of links.</p>
+<form id="quickForm">
+<div class="field"><label for="quickFrom">Starting point</label><input id="quickFrom" placeholder="e.g., Tampa Convention Center" required></div>
+<div class="field"><label for="quickTo">Destination</label><input id="quickTo" placeholder="e.g., Tampa Riverwalk" required></div>
+<button class="btn wide" type="submit">Plan my trip →</button>
+</form>
+<p class="fine">This prototype demonstrates information architecture. It does not calculate live routes.</p>
+</div>
+</div>
+</section>
+<section class="section" id="how">
+<div class="wrap">
+<div class="section-head">
+<div class="eyebrow" style="color:var(--green)">How it works</div>
+<h2>One clear path to a better choice.</h2>
+<p>Our website is organized around the decision people actually need to make: how should I get to my destination?</p>
+</div>
+<div class="steps">
+<div class="step"><span class="num">01</span><h3>Trip Details</h3><p>Enter where you are and where you want to go.</p></div>
+<div class="step"><span class="num">02</span><h3>Preferences</h3><p>Choose whether time, cost, walking distance, or accessibility matters most.</p></div>
+<div class="step"><span class="num">03</span><h3>Compare Options</h3><p>Review transportation methods and their illustrated trade-offs.</p></div>
+<div class="step"><span class="num">04</span><h3>Trip Summary</h3><p>Choose an option, review next steps, or edit your trip.</p></div>
+</div>
+</div>
+</section>
+<section class="section light" id="plan">
+<div class="wrap">
+<div class="section-head">
+<div class="eyebrow" style="color:var(--green)">Interactive concept</div>
+<h2>Plan a Trip</h2>
+<p>A sample guided flow based on the group proposal. Comparison values are demonstrations, not real route data.</p>
+</div>
+<div class="builder">
+<div class="panel">
+<h3>1. Trip Details &amp; Preferences</h3>
+<div class="field"><label for="origin">From</label><input id="origin" placeholder="Enter your starting point"></div>
+<div class="field"><label for="destination">To</label><input id="destination" placeholder="Enter your destination"></div>
+<div class="field">
+<label for="priority">What matters most?</label>
+<select id="priority">
+<option value="time">Shortest estimated time</option>
+<option value="cost">Lowest estimated cost</option>
+<option value="walking">Less walking</option>
+</select>
+</div>
+<p class="small"><strong>Transportation modes</strong></p>
+<div class="checkgrid">
+<label class="check"><input type="checkbox" class="modeFilter" value="Walking" checked> Walking</label>
+<label class="check"><input type="checkbox" class="modeFilter" value="Biking" checked> Biking</label>
+<label class="check"><input type="checkbox" class="modeFilter" value="Public Transit" checked> Public Transit</label>
+<label class="check"><input type="checkbox" class="modeFilter" value="Shared Transportation" checked> Shared Transportation</label>
+</div>
+<label class="check" style="margin-top:12px"><input type="checkbox" id="accessible"> Show accessibility considerations</label>
+<button id="compareBtn" class="btn wide" style="margin-top:18px">Compare my options →</button>
+</div>
+<div class="panel" id="compare">
+<h3>2. Compare Options</h3>
+<p class="meta" id="routeDescription">Enter your trip and choose Compare my options.</p>
+<div id="results">
+<div class="notice">This is a prototype. No live travel times, prices, routes, or accessibility verification are available. The example options below will be labeled illustrative.</div>
+</div>
+<div id="tripSummary" class="summary hidden" aria-live="polite"></div>
+<button class="btn outline hidden" id="editBtn" style="margin-top:14px">Edit Trip ↑</button>
+</div>
+</div>
+</div>
+</section>
+<section class="section" id="guidance">
+<div class="wrap">
+<div class="section-head">
+<div class="eyebrow" style="color:var(--green)">Travel guidance</div>
+<h2>Understand your options.</h2>
+<p>Modes appear as filters and comparison categories—not as the website's main task structure.</p>
+</div>
+<div class="modes">
+<div class="mode"><div class="emoji">🚶</div><h3>Walking</h3><p>Consider walking distance, crossings, weather, and comfort.</p></div>
+<div class="mode"><div class="emoji">🚲</div><h3>Biking</h3><p>Check route suitability, bike parking, and equipment needs.</p></div>
+<div class="mode"><div class="emoji">🚌</div><h3>Public Transit</h3><p>Look for stop locations, transfers, service information, and fares.</p></div>
+<div class="mode"><div class="emoji">🚗</div><h3>Shared Transportation</h3><p>Compare convenience, pickup locations, and possible costs.</p></div>
+</div>
+</div>
+</section>
+<section class="section light" id="accessibility">
+<div class="wrap">
+<div class="section-head">
+<div class="eyebrow" style="color:var(--green)">Accessibility</div>
+<h2>Travel constraints are part of the decision.</h2>
+<p>Trip planning should consider walking distance, accessible stops or vehicles, transfers, and route limitations. The prototype provides space for these needs, but cannot verify whether a real-world route is accessible.</p>
+</div>
+<div class="notice">Before traveling, confirm accessibility and service details with the relevant transportation provider. Example results on this page are not validated travel guidance.</div>
+</div>
+</section>
+<section class="section" id="personas">
+<div class="wrap">
+<div class="section-head">
+<div class="eyebrow" style="color:var(--green)">Who we're designing for</div>
+<h2>Four people. Different trips. One clear planning experience.</h2>
+<p>Fictional personas representing the downtown worker, student, resident, and visitor audiences. Photos are illustrative representations.</p>
+</div>
+<div class="personas">
+<article class="persona">
+<img src="assets/Micheal.png" alt="Illustrative portrait for Michael, the primary worker persona">
+<div class="inside">
+<div class="role">Primary · Downtown employee</div>
+<h3>Michael Reynolds</h3>
+<p>34 · Finance analyst. Needs fast, dependable alternatives to driving and parking between downtown work destinations.</p>
+<blockquote>“I need to get to my meeting without wasting time parking.”</blockquote>
+</div>
+</article>
+<article class="persona">
+<img src="assets/Sophia.png" alt="Illustrative portrait for Sophia, the student persona">
+<div class="inside">
+<div class="role">Secondary · Student</div>
+<h3>Sophia Martinez</h3>
+<p>21 · University of Tampa student. Compares walking and transit, with cost as a major priority.</p>
+<blockquote>“Show me the cheapest practical way to get there.”</blockquote>
+</div>
+</article>
+<article class="persona">
+<img src="assets/Danielle.png" alt="Illustrative portrait for Danielle, the downtown resident persona">
+<div class="inside">
+<div class="role">Secondary · Resident</div>
+<h3>Danielle Brooks</h3>
+<p>42 · Technology manager. Wants easy, convenient alternatives to taking her car for local activities.</p>
+<blockquote>“I want to know whether leaving my car home makes sense.”</blockquote>
+</div>
+</article>
+<article class="persona">
+<img src="assets/David.png" alt="Illustrative portrait for David, the visiting traveler persona">
+<div class="inside">
+<div class="role">Secondary · Visitor</div>
+<h3>David Chen</h3>
+<p>38 · Business traveler. Needs understandable directions, landmarks, and clear explanations of unfamiliar options.</p>
+<blockquote>“Tell me where to go and what to expect along the way.”</blockquote>
+</div>
+</article>
+</div>
+</div>
+</section>
+<section class="section light" id="about">
+<div class="wrap">
+<div class="section-head">
+<div class="eyebrow" style="color:var(--green)">Information architecture</div>
+<h2>Designed around the trip, not the transport directory.</h2>
+<p><strong>Content organization:</strong> Home, Plan a Trip, Compare Options, Accessibility, Travel Guidance, and About form the task-oriented structure. Walking, Biking, Public Transit, and Shared Transportation are comparison dimensions.</p>
+<p><strong>Navigation:</strong> Users can follow Trip Details → Preferences → Compare Options → Trip Summary, return to previous steps, and edit choices.</p>
+<p><strong>Labels:</strong> Familiar action-oriented terms such as Plan a Trip, Compare Options, Edit Trip, Cost, Estimated Time, Walking Distance, and Accessibility support recognition.</p>
+<p><strong>User pathways:</strong> Michael prioritizes reliable travel time, Sophia cost, Danielle convenience, and David clear directions. All begin with the same trip definition and then compare the options relevant to them.</p>
+</div>
+<div class="notice">Academic concept: The proposal calls for user interviews, card sorting, tree testing, and task-based usability testing. The current page is a sample interface, not evidence that those studies have already occurred.</div>
+</div>
+</section>
+</main>
+<footer class="footer">
+<div class="wrap">
+<strong>Move Downtown Tampa</strong>
+<p>Group 11 · Nand Patel and Isaiah Jean · LIS 3783 Information Architecture</p>
+<p class="small">Fictional Downtown Tampa mobility project. Routes, costs, and travel times in the demonstration are illustrative and not suitable for real travel planning.</p>
+<a href="#home">Back to top ↑</a>
+</div>
 </footer>
-
 <script>
-function showPersona(id) {
-  closeAll();
-  const el = document.getElementById(id);
-  el.classList.add('active');
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+const $=id=>document.getElementById(id);
+$('quickForm').addEventListener('submit',e=>{
+e.preventDefault();
+$('origin').value=$('quickFrom').value;
+$('destination').value=$('quickTo').value;
+location.hash='plan';
+$('compareBtn').focus()
+});
+const options=[
+{name:'Walking',icon:'🚶',time:22,cost:0,walk:22,detail:'Walking-focused example. Verify crossings, weather, and route suitability.'},
+{name:'Biking',icon:'🚲',time:10,cost:0,walk:2,detail:'Biking-focused example. Verify route safety and bike parking.'},
+{name:'Public Transit',icon:'🚌',time:17,cost:2,walk:6,detail:'Transit example. Stops, fares, schedules, and transfers are not verified.'},
+{name:'Shared Transportation',icon:'🚗',time:12,cost:9,walk:3,detail:'Shared-ride example. Actual pickup times and prices vary.'}
+];
+$('compareBtn').addEventListener('click',()=>{
+let from=$('origin').value.trim(),to=$('destination').value.trim();
+if(!from||!to){
+$('routeDescription').textContent='Please enter both a starting point and destination.';
+return;
 }
-function closeAll() {
-  document.querySelectorAll('.persona-detail').forEach(d => d.classList.remove('active'));
+let chosen=[...document.querySelectorAll('.modeFilter:checked')].map(x=>x.value);
+let filtered=options.filter(o=>chosen.includes(o.name));
+let p=$('priority').value;
+filtered.sort((a,b)=>p==='cost'?(a.cost-b.cost||a.time-b.time):p==='walking'?(a.walk-b.walk||a.time-b.time):a.time-b.time);
+$('routeDescription').textContent=`Illustrative comparison: ${from} → ${to}. Values below are sample placeholders, NOT route calculations.`;
+$('results').replaceChildren();
+if(!filtered.length){
+$('results').textContent='Choose at least one transportation mode.';
+return;
 }
-function toggleAccordion(header) {
-  const content = header.nextElementSibling;
-  const isOpen = content.classList.contains('open');
-  document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
-  document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('open'));
-  if (!isOpen) {
-    content.classList.add('open');
-    header.classList.add('open');
-  }
+filtered.forEach(o=>{
+let card=document.createElement('div');
+card.className='result';
+let info=document.createElement('div');
+let title=document.createElement('strong');
+title.textContent=`${o.icon} ${o.name}`;
+let meta=document.createElement('small');
+meta.textContent=`Example only · ${o.time} min · $${o.cost} · ${o.walk} min walking`;
+let details=document.createElement('small');
+details.textContent=o.detail;
+info.append(title,meta,details);
+let b=document.createElement('button');
+b.className='btn outline';
+b.textContent='Select option';
+b.addEventListener('click',()=>{
+let summary=$('tripSummary');
+summary.classList.remove('hidden');
+summary.replaceChildren();
+let h=document.createElement('strong');
+h.textContent='3. Trip Summary — '+o.name;
+let para=document.createElement('p');
+para.textContent=`From ${from} to ${to}. Your selected example is ${o.name}. Confirm actual routes, costs, schedules, and accessibility with official providers before traveling.`;
+summary.append(h,para);
+$('editBtn').classList.remove('hidden');
+summary.scrollIntoView({behavior:'smooth',block:'nearest'})
+});
+card.append(info,b);
+$('results').append(card)
+});
+if($('accessible').checked){
+let note=document.createElement('div');
+note.className='notice';
+note.textContent='Accessibility requested: example modes are NOT verified accessible. Confirm vehicle, stop, sidewalk, and transfer accessibility with providers.';
+$('results').prepend(note)
 }
+$('tripSummary').classList.add('hidden');
+$('editBtn').classList.remove('hidden')
+});
+$('editBtn').addEventListener('click',()=>$('origin').focus());
 </script>
 </body>
 </html>
